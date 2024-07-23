@@ -1,0 +1,111 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<link href="~/css/styleregister.css" asp-append-version="true" rel="stylesheet" />
+@{
+    Layout = "~/Views/Shared/_LayoutAccess.cshtml";
+}
+@model User
+<div id="register-form" class="register-form">
+    @using (Html.BeginForm("Register", "Access", FormMethod.Post, new { @id = "register-forms" }))
+    {
+        <div class="loading"></div>
+        <div class="title">
+            <span class="exit"></span>
+            Đăng ký thành viên
+        </div>
+
+        <div class="input-form-register">
+            @*name*@
+            <div class="row">
+                <div class="col1">Họ tên.(<span class="note">*</span>)</div>
+                <div class="col2">
+                    @Html.TextBoxFor(x => x.Name)
+                </div>
+            </div>
+            @*
+        <div class="suggesstion">
+        <p class="error_email_name">Email không đúng định dạng !!!</p>
+        </div>
+        <div class="suggesstion">
+        <p class="error_name_lenght">Yêu cầu độ dài lớn hơn 8 kí tự !!!</p>
+        </div>*@
+            <div class="suggesstion">
+                <p class="error_null">Không được để trống !</p>
+            </div>
+
+            @*phone*@
+            <div class="row">
+                <div class="col1">Di động (<span class="note">*</span>)</div>
+                <div class="col2">
+                    @Html.TextBoxFor(x => x.PhoneNumber)
+                </div>
+            </div>
+            <div class="suggesstion">
+                <p class="error_null">Không được để trống !</p>
+            </div>
+            <div class="suggesstion">
+                <p class="error_phone">Số điện thoại không đúng định dạng !</p>
+            </div>
+
+            @*email*@
+            <div class="row">
+                <div class="col1">
+                    Email (<span class="note">*</span>)<br />
+                </div>
+                <div class="col2">
+                    @Html.TextBoxFor(x => x.Email)
+                </div>
+            </div>
+            <p style="color:red"> @Html.ValidationMessageFor(x => x.Email, "", new { @class = "text-danger" })</p>
+
+            <div class="suggesstion">
+                <p class="error_null">Không được để trống !</p>
+            </div>
+            <div class="suggesstion">
+                <p class="error_email">Email không đúng định dạng !!!</p>
+            </div>          
+            <div class="suggesstion">
+                <p class="error_null">Không được để trống !</p>
+            </div>
+
+            @*pass*@
+            <div class="row">
+                <div class="col1">Mật khẩu(<span class="note">*</span>)</div>
+                <div class="col2">
+                    @Html.PasswordFor(x => x.Password)
+                </div>
+            </div>
+            <div class="suggesstion">
+                <p class="error_pass_one">Mật khẩu tối thiểu trên 8 kí tự !</p>
+            </div>
+            <div class="suggesstion">
+                <p class="error_null">Không được để trống !</p>
+            </div>
+
+            @*pass again*@
+            <div class="row">
+                <div class="col1">Nhập lại mật khẩu(<span class="note">*</span>)</div>
+                <div class="col2">
+                    <input id="password-two" name="confirmPassword" type="password" />
+                </div>
+            </div>
+            <div class="suggesstion">
+                <p class="error_null">Không được để trống !</p>
+            </div>
+            <div class="suggesstion">
+                <p class="error_pass_two">Nhập lại mật khẩu không trùng khớp !</p>
+            </div>
+
+            <div class="row">
+                <div class="row button-register">
+                    <p class="buttonStatus" id="register"> <a class="" style="text-decoration:none" asp-area="" asp-controller="Access" asp-action="Login">Đăng Nhập</a></p>
+                    <button type="submit" class="register">Đăng ký</button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/js/register.js" asp-append-version="true"></script>

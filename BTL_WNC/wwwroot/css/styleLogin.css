@@ -1,0 +1,112 @@
+﻿html {
+    font-size: 12px;
+}
+
+.login-form {
+    position: fixed;
+    display: block;
+    left: 4%;
+    top: 10%;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0px 5px 10px 5px rgb(246, 244, 244);
+    padding: 20px;
+    width: 25rem;
+}
+
+    .login-form .title {
+        font-size: 20px;
+        font-weight: bold;
+        color: #1579a8;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+.input-form-login {
+    margin-bottom: 20px;
+}
+
+.login-form .row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.col1 {
+    flex: 1;
+    font-weight: bold;
+}
+
+.col2 {
+    flex: 3;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.button-login {
+    margin-left: 8rem;
+}
+
+    .button-login span, .button-login .login {
+        cursor: pointer;
+        margin: 0 10px;
+        border-radius: 5px;
+        background-color: #0099cc;
+        color: #fff;
+        transition: background-color 0.3s ease;
+    }
+
+    .button-login .login {
+        border: 1px solid;
+        padding: 8.5px 30px;
+        font-size: 1rem;
+    }
+
+    .button-login span {
+        padding: 12px 30px;
+    }
+
+        .button-login span:hover, .button-login .login:hover {
+            background-color: #0056b3;
+        }
+
+.clear {
+    clear: both;
+}
+
+.show-recover-form,
+.show-register-form {
+    cursor: pointer;
+    color: #007bff;
+    margin-right: 20px;
+}
+
+@media (min-width: 1024px) {
+    html {
+        font-size: 18px
+    }
+
+    .login-form {
+        left: 35%;
+        top: 20%;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    html {
+        font-size: 16px
+    }
+
+    .login-form {
+        left: 27%;
+        top: 10%;
+    }
+}

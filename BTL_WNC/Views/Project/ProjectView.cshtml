@@ -1,0 +1,143 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@* @model List<BTL_WNC.Models.Project>
+
+@{
+    ViewData["Title"] = "Project";
+}
+
+<div class="container mt-5">
+    <h1>Projects</h1>
+    <div class="row mb-4">
+        <div class="col-md-12 text-right">
+            <a href="@Url.Action("AddProject", "Project")" class="btn btn-primary">+ Add Project</a>
+        </div>
+    </div>
+    <div class="row">
+        @foreach (var project in Model)
+        {
+            <div class="col-md-4">
+                <div class="card mb-4 box-shadow">
+                    <div class="card-header">
+                        <h4 class="my-0 font-weight-normal">@project.Name</h4>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title pricing-card-title">@project.startTime.ToString("dd MMM, yyyy")</h5>
+                        <p class="card-text">@project.Decription</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <a href="@Url.Action("Edit", "Project", new { id = project.Id })" class="btn btn-sm btn-outline-secondary">Edit</a>
+                                <a href="@Url.Action("Delete", "Project", new { id = project.Id })" class="btn btn-sm btn-outline-secondary">Delete</a>
+                            </div>
+                            <span class="badge badge-secondary">Pending</span> <!-- Update this based on project status -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div> *@
+
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@model List<BTL_WNC.Models.Project>
+
+@{
+    ViewData["Title"] = "Project";
+}
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Bao gồm jQuery (được yêu cầu bởi Bootstrap JS) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+<!-- Bao gồm Popper.js -->
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+
+<!-- Bao gồm Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+<div class="container mt-5">
+    
+    <h1>Projects</h1>
+    <div class="row mb-4">
+        <div class="col-md-6 text-left">
+            <a href="@Url.Action("AddProject", "Project")" class="btn btn-primary" data-toggle="modal" data-target="#addProjectModal">+ Add Project</a>
+        </div>
+        <div class="col-md-6 text-right">
+            <!-- Thanh tìm kiếm -->
+            <form class="form-inline" method="get" action="@Url.Action("ProjectView", "Project")">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="searchString">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+        
+    </div>
+    <div class="row">
+        @foreach (var project in Model)
+        {
+            <div class="col-md-4">
+                <div class="card mb-4 box-shadow">
+                    <a href="@Url.Action("TaskView", "Task", new { id = project.Id })" class="text-decoration-none text-dark">
+                        <div class="card-header">
+                            <h4 class="my-0 font-weight-normal">@project.Name</h4>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title pricing-card-title">@project.startTime.ToString("dd MMM, yyyy")</h5>
+                            <p class="card-text">@project.Decription</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    @* <a href="javascript:void(0);" class="btn btn-sm btn-outline-secondary" onclick="loadEditModal('@Url.Action("EditProject", "Project", new { id = project.Id })');">Edit</a> *@
+                                    <a href="@Url.Action("EditProject", "Project", new { id = project.Id })" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#editProjectModal", >Edit</a>  
+                                    @* <a href="@Url.Action("Delete", "Project", new { id = project.Id })" class="btn btn-sm btn-outline-secondary">Delete</a> *@
+                                    <a href="@Url.Action("DeleteProject", "Project", new { id = project.Id })" class="btn btn-sm btn-outline-secondary" onclick="return confirmDelete('@project.Id');">Delete</a>
+                                </div>
+                                @* <span class="badge badge-secondary">Pending</span> <!-- Update this based on project status --> *@
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+@* <div id="editProjectContainer"></div> *@
+@* <partial name="AddProject" />
+<partial name="EditProject" /> *@
+
+@Html.Partial("AddProject", new BTL_WNC.Models.Project())
+@Html.Partial("EditProject", Model.FirstOrDefault()) 
+
+<script>
+    function confirmDelete(projectId) {
+        if (confirm('Bạn chắc chắn muốn xóa Project này chứ?')) {
+            $.ajax({
+                url: '@Url.Action("DeleteProject", "Project")',
+                type: 'POST',
+                data: { id: projectId },
+                success: function (result) {
+                    if (result.success) {
+                        location.reload(); // Tải lại trang sau khi xóa thành công
+                    } else {
+                        alert('Error!!!');
+                    }
+                }
+            });
+        }
+        return false;
+    }
+
+    // function loadEditModal(url) {
+    //     $.get(url, function (data) {
+    //         $('#editProjectContainer').html(data);
+    //         $('#editProjectModal').modal('show');
+    //     });
+    // }
+</script>
+
+

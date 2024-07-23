@@ -1,0 +1,150 @@
+﻿html {
+    font-size: 12px;
+}
+
+.register-form {
+    width: 25rem;
+    box-shadow: 0px 5px 10px 5px rgb(246, 244, 244);
+    padding: 1.5rem;
+    z-index: 100;
+    background-color: white;
+    display: block;
+    margin-left: 4%;
+    margin-top: 2rem;
+    padding-bottom: 3rem;
+}
+
+    .register-form .title {
+        text-align: center;
+        color: #1579a8;
+        font-weight: bold;
+        font-size: 1.3rem;
+        padding-bottom: 1rem;
+    }
+
+    .register-form .row {
+        display: flex;
+        margin-top: 1rem;
+    }
+
+.error_null {
+    display: none;
+}
+
+.error_phone {
+    display: none;
+}
+
+.error_pass_one {
+    display: none;
+}
+
+.error_name_lenght {
+    display: none;
+}
+
+.error_pass_two {
+    display: none;
+}
+
+.error_email {
+    display: none;
+}
+
+.error_email_name {
+    display: none;
+}
+
+.input-form-register .suggesstion p {
+    color: red;
+    font-size: 0.9rem;
+    padding-top: 10px;
+}
+
+.col1 {
+    width: 10rem;
+}
+
+.col2 input[type="text"],
+input[type="password"] {
+    width: 15rem;
+    height: 25px;
+    border-radius: 2px;
+    padding-left: 0.5rem;
+    border: 1px solid black;
+}
+
+.form-control-gender {
+    width: 15.7rem;
+    height: 29px;
+    margin-left: -12px;
+    border-radius: 2px;
+    padding-left: 0.5rem;
+    border: 1px solid black;
+}
+
+.register-form .notices {
+    color: red;
+    text-align: justify;
+}
+
+.note {
+    color: red;
+}
+
+.button-register {
+    margin-left: 8rem;
+}
+
+    .button-register span, .button-register .register {
+        margin-left: 1rem;
+        background-color: #0099cc;
+        color: white;
+        cursor: pointer;
+        border-radius: 3px;
+    }
+
+    .button-register .register {
+        padding: 0.5rem 1rem 0.5rem 1rem;
+        font-size: 1rem;
+        border: 1px solid;
+    }
+
+    .button-register span {
+        padding: 0.55rem 1rem 0.55rem 1rem;
+    }
+
+        .button-register span:hover, .register:hover {
+            background-color: #47b5da;
+        }
+
+.expand {
+    display: none;
+}
+
+
+@media (min-width: 1024px) {
+    html {
+        font-size: 18px
+    }
+
+    .register-form {
+        margin-left: 35%;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    html {
+        font-size: 16px
+    }
+
+    .register-form {
+        margin-left: 23%;
+        margin-bottom: 5rem;
+    }
+
+    .login-form {
+        left: 27%;
+        top: 10%;
+    }
+}
