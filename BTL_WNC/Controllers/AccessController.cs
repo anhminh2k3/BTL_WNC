@@ -1,5 +1,6 @@
 ﻿using BTL_WNC.Models;
 using Microsoft.AspNetCore.Mvc;
+//using Microsoft.AspNetCore.Authentication;
 
 namespace BTL_WNC.Controllers
 {
@@ -45,6 +46,8 @@ namespace BTL_WNC.Controllers
         [HttpPost]
         public IActionResult Logout()
         {
+            //HttpContext.Session.Remove("UserName");
+            //return RedirectToAction("Login");
             HttpContext.Session.Clear();
             return RedirectToAction("Login", "Access");
         }

@@ -1,0 +1,82 @@
+﻿@model BTL_WNC.ViewModels.TaskViewModel
+
+@{
+    ViewData["Title"] = "Task";
+}
+
+<h1>Edit Task</h1>
+
+<form asp-action="EditTask" method="post">
+    <input type="hidden" asp-for="Task.Id" />
+    <input type="hidden" asp-for="Task.ProjectId" />
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="alert alert-danger">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="Task.Title" class="control-label"></label>
+        <input asp-for="Task.Title" class="form-control" />
+        <span asp-validation-for="Task.Title" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Task.Content" class="control-label"></label>
+        <textarea asp-for="Task.Content" class="form-control"></textarea>
+        <span asp-validation-for="Task.Content" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Task.DueDate" class="control-label"></label>
+        <input asp-for="Task.DueDate" class="form-control" type="date" />
+        <span asp-validation-for="Task.DueDate" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Task.Status">Status</label>
+        <select asp-for="Task.Status" class="form-control">
+            <option value="Doing">Doing</option>
+            <option value="Done">Done</option>
+        </select>
+        <span asp-validation-for="Task.Status" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="control-label">Assign Users</label>
+        @foreach (var user in Model.Users)
+        {
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="SelectedUsers" value="@user.Id" id="user_@user.Id"
+                @if (Model.Task.Users.Contains(user))
+                {
+                    <text>checked</text>
+                } />
+                <label class="form-check-label" for="user_@user.Id">
+                    @user.Name
+                </label>
+            </div>
+        }
+        <span asp-validation-for="SelectedUsers" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        @using (Html.BeginForm("EditTask", "Task", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.Task.Id)
+            @Html.HiddenFor(model => model.Project.Id)
+
+            <!-- Các trường khác cho Task và Project -->
+
+            <input type="submit" value="Save" class="btn btn-primary" />
+        }
+        <a href="@Url.Action("TaskView", new { id = Model.Project.Id })" class="btn btn-secondary">Cancel</a>  
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

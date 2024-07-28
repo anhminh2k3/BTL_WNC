@@ -8,6 +8,7 @@ builder.Services.AddDbContext<ProjectDbContext>(x => x.UseSqlServer(builder.Conf
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpContextAccessor(); // Add this line(update status)
 
 //Cấu jinhf sd Session
 builder.Services.AddDistributedMemoryCache(); // Use a memory cache to store session data
@@ -38,6 +39,6 @@ app.UseSession();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Access}/{action=Login}/{id?}");
 
 app.Run();

@@ -17,8 +17,6 @@ namespace BTL_WNC.Models
         public string Password { get; set; }
         [Column(TypeName = "varchar(20)")]
         public string RoleId { get; set; }
-
-        // Mối quan hệ nhiều-nhiều với Task thông qua UserTask.
-        //public ICollection<UserTask> UserTasks { get; set; } = new List<UserTask>();
+        public ICollection<Task> Tasks { get; set; } = new List<Task>(); // Nhiều task cho một user
     }
 }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BTL_WNC.Migrations
 {
     [DbContext(typeof(ProjectDbContext))]
-    [Migration("20240722190024_intiDbup")]
-    partial class intiDbup
+    [Migration("20240723170445_initDbbb")]
+    partial class initDbbb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

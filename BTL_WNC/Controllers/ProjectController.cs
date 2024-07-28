@@ -18,23 +18,30 @@ namespace BTL_WNC.Controllers
             _context = context;
         }
 
-        // GET: Projects
-        public async Task<IActionResult> ProjectView(string searchString)
+        // Kiểm tra quyền admin của người dùng
+        private bool IsAdmin()
         {
-            var projects = from p in _context.Projects
-                           select p;
+            var userId = HttpContext.Session.GetString("UserId");
+            var user = _context.Users.FirstOrDefault(u => u.Id.ToString() == userId);
+            return user != null && user.RoleId == "role1";
+        }
 
-            if (!string.IsNullOrEmpty(searchString))
+        // GET: Projects
+        public async Task<IActionResult> ProjectView()
+        {
+            if (HttpContext.Session.GetString("Username") == null)
             {
-                projects = projects.Where(s => s.Name.Contains(searchString));
+                return RedirectToAction("Login", "Access");
             }
 
+            var projects = from p in _context.Projects
+            select p;
+
             projects = projects.OrderByDescending(p => p.startTime);
-
+            ViewBag.UserName = HttpContext.Session.GetString("NameLogined"); // Assuming the user is authenticated
+            ViewBag.UserId = HttpContext.Session.GetString("UserId");
+            ViewBag.IsAdmin = IsAdmin();
             return View(await projects.ToListAsync());
-
-            //var projects = await _context.Projects.OrderByDescending(p => p.startTime).ToListAsync();
-            //return View(projects);
         }
 
 
@@ -59,6 +66,10 @@ namespace BTL_WNC.Controllers
         // GET: Project/Create
         public IActionResult AddProject()
         {
+            if (!IsAdmin())
+            {
+                return Forbid();
+            }
             return View();
         }
 
@@ -67,6 +78,10 @@ namespace BTL_WNC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddProject([Bind("Name,Decription")] Project project)
         {
+            if (!IsAdmin())
+            {
+                return Forbid();
+            }
             if (ModelState.IsValid)
             {
                 project.Id = Guid.NewGuid();
@@ -78,61 +93,57 @@ namespace BTL_WNC.Controllers
             return View(project);
         }
 
-        // GET: Projects/Edit/5
-        public async Task<IActionResult> EditProject(Guid? id)
+        public IActionResult EditProject(Guid id)
         {
-            if (id == null)
+            if (!IsAdmin())
             {
-                return NotFound();
+                return Forbid();
             }
-
-            var project = await _context.Projects.FindAsync(id);
+            var project = _context.Projects.Find(id);
             if (project == null)
             {
                 return NotFound();
             }
-            return View("EditProject", project); // Sử dụng cùng một view cho cả thêm mới và chỉnh sửa
+
+            return PartialView("EditProject", project); 
         }
 
-        // POST: Projects/Edit/5
+        // POST: Project/EditProject
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Name,Decription,startTime")] Project project)
+        public IActionResult EditProject(Project model)
         {
-            if (id != project.Id)
+            if (!IsAdmin())
             {
-                return NotFound();
+                return Forbid();
             }
-
             if (ModelState.IsValid)
             {
-                try
+                var project = _context.Projects.Find(model.Id);
+                if (project == null)
                 {
-                    _context.Update(project);
-                    await _context.SaveChangesAsync();
+                    return NotFound();
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProjectExists(project.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(ProjectView)); // Chuyển hướng về trang ProjectView
+
+                project.Name = model.Name;
+                project.Decription = model.Decription;
+
+                _context.Update(project);
+                _context.SaveChanges();
+
+                return Json(new { success = true });
             }
-            return View("EditProject", project);
+
+            return Json(new { success = false, errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList() });
         }
-
-
 
         // API: Projects/Delete
         [HttpPost]
         public async Task<IActionResult> DeleteProject(Guid id)
         {
+            if (!IsAdmin())
+            {
+                return Forbid();
+            }
             var project = await _context.Projects.FindAsync(id);
             if (project == null)
             {

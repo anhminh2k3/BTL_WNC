@@ -1,0 +1,35 @@
+﻿.card-custom {
+    background-color: #f8f9fa !important; /* Light gray background */
+    border: 1px solid #d3d3d3 !important; /* Border color to differentiate cards */
+}
+
+    .card-custom .card-header,
+    .card-custom .card-body,
+    .card-custom .card-footer {
+        background-color: #f8f9fa !important; /* Ensures the same background color */
+    }
+
+    .card-custom .card-header {
+        font-weight: bold !important;
+        font-size: 1.25rem !important; /* Larger font size */
+    }
+
+/* Custom styles */
+.container {
+    padding: 0 15px; /* Adjust container padding */
+}
+
+.title-decription {
+    /* This class is used to align the title and description to the left */
+    text-align: left;
+}
+
+.d-flex {
+    /* Ensure the container uses flexbox */
+    display: flex;
+    justify-content: space-between; /* Space out items */
+}
+
+input[type="search"] {
+    margin-right: 5px; /* Space between search input and button */
+}

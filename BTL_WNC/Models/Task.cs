@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json;
 
 namespace BTL_WNC.Models
 {
@@ -21,7 +22,6 @@ namespace BTL_WNC.Models
         public string Status { get; set; }
         
         public Guid ProjectId { get; set; }
-        
         public ICollection<User> Users { get; set; } = new List<User>(); // nhieu ng dùng cho task
 
         //public Guid UserId { get; set; }
