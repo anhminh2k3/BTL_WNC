@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BTL_WNC.Migrations
 {
     [DbContext(typeof(ProjectDbContext))]
-    [Migration("20240722151300_intiDbUpdateeee")]
-    partial class intiDbUpdateeee
+    [Migration("20240723192649_initDbbbb")]
+    partial class initDbbbb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -88,9 +88,6 @@ namespace BTL_WNC.Migrations
                     b.Property<DateTime>("UpdateAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
                     b.ToTable("Tasks");
@@ -122,26 +119,39 @@ namespace BTL_WNC.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(20)");
 
-                    b.Property<Guid?>("TaskId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("TaskId");
 
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("BTL_WNC.Models.User", b =>
+            modelBuilder.Entity("TaskUser", b =>
                 {
-                    b.HasOne("BTL_WNC.Models.Task", null)
-                        .WithMany("Users")
-                        .HasForeignKey("TaskId");
+                    b.Property<Guid>("TasksId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UsersId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("TasksId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("TaskUser");
                 });
 
-            modelBuilder.Entity("BTL_WNC.Models.Task", b =>
+            modelBuilder.Entity("TaskUser", b =>
                 {
-                    b.Navigation("Users");
+                    b.HasOne("BTL_WNC.Models.Task", null)
+                        .WithMany()
+                        .HasForeignKey("TasksId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BTL_WNC.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

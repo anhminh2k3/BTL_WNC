@@ -3,7 +3,13 @@
 @{
     ViewData["Title"] = "Project";
 } 
+@* <style>
+    .modal-footer {
+        display: flex;
+        justify-content: flex-end; /* Căn chỉnh nhóm nút về phía bên phải */
+    }
 
+</style> *@
 
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
@@ -39,10 +45,12 @@
             <textarea asp-for="Decription" class="form-control"></textarea>
             <span asp-validation-for="Decription" class="text-danger"></span>
           </div>
-          <div class="form-group">
+
+        <div class="modal-footer">
             <input type="submit" value="Create Project" class="btn btn-primary" />
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-          </div>
+        </div>
+
         </form>
       </div>
     </div>

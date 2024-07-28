@@ -116,26 +116,39 @@ namespace BTL_WNC.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(20)");
 
-                    b.Property<Guid?>("TaskId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("TaskId");
 
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("BTL_WNC.Models.User", b =>
+            modelBuilder.Entity("TaskUser", b =>
                 {
-                    b.HasOne("BTL_WNC.Models.Task", null)
-                        .WithMany("Users")
-                        .HasForeignKey("TaskId");
+                    b.Property<Guid>("TasksId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UsersId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("TasksId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("TaskUser");
                 });
 
-            modelBuilder.Entity("BTL_WNC.Models.Task", b =>
+            modelBuilder.Entity("TaskUser", b =>
                 {
-                    b.Navigation("Users");
+                    b.HasOne("BTL_WNC.Models.Task", null)
+                        .WithMany()
+                        .HasForeignKey("TasksId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BTL_WNC.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

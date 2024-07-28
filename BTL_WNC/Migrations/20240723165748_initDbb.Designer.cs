@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BTL_WNC.Migrations
 {
     [DbContext(typeof(ProjectDbContext))]
-    [Migration("20240722211841_initDbUpppp")]
-    partial class initDbUpppp
+    [Migration("20240723165748_initDbb")]
+    partial class initDbb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -88,9 +88,11 @@ namespace BTL_WNC.Migrations
                     b.Property<DateTime>("UpdateAt")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                    b.Property<string>("UserIdsJson")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("ProjectId");
+                    b.HasKey("Id");
 
                     b.ToTable("Tasks");
                 });
@@ -131,32 +133,6 @@ namespace BTL_WNC.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("BTL_WNC.Models.UserTask", b =>
-                {
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("TaskId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("UserId", "TaskId");
-
-                    b.HasIndex("TaskId");
-
-                    b.ToTable("UserTasks");
-                });
-
-            modelBuilder.Entity("BTL_WNC.Models.Task", b =>
-                {
-                    b.HasOne("BTL_WNC.Models.Project", "Project")
-                        .WithMany("Tasks")
-                        .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Project");
-                });
-
             modelBuilder.Entity("BTL_WNC.Models.User", b =>
                 {
                     b.HasOne("BTL_WNC.Models.Task", null)
@@ -164,40 +140,9 @@ namespace BTL_WNC.Migrations
                         .HasForeignKey("TaskId");
                 });
 
-            modelBuilder.Entity("BTL_WNC.Models.UserTask", b =>
-                {
-                    b.HasOne("BTL_WNC.Models.Task", "Task")
-                        .WithMany("UserTasks")
-                        .HasForeignKey("TaskId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BTL_WNC.Models.User", "User")
-                        .WithMany("UserTasks")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Task");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("BTL_WNC.Models.Project", b =>
-                {
-                    b.Navigation("Tasks");
-                });
-
             modelBuilder.Entity("BTL_WNC.Models.Task", b =>
                 {
-                    b.Navigation("UserTasks");
-
                     b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("BTL_WNC.Models.User", b =>
-                {
-                    b.Navigation("UserTasks");
                 });
 #pragma warning restore 612, 618
         }

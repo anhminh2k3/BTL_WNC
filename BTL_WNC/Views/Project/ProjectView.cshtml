@@ -1,51 +1,4 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-
-@* @model List<BTL_WNC.Models.Project>
-
-@{
-    ViewData["Title"] = "Project";
-}
-
-<div class="container mt-5">
-    <h1>Projects</h1>
-    <div class="row mb-4">
-        <div class="col-md-12 text-right">
-            <a href="@Url.Action("AddProject", "Project")" class="btn btn-primary">+ Add Project</a>
-        </div>
-    </div>
-    <div class="row">
-        @foreach (var project in Model)
-        {
-            <div class="col-md-4">
-                <div class="card mb-4 box-shadow">
-                    <div class="card-header">
-                        <h4 class="my-0 font-weight-normal">@project.Name</h4>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title pricing-card-title">@project.startTime.ToString("dd MMM, yyyy")</h5>
-                        <p class="card-text">@project.Decription</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <a href="@Url.Action("Edit", "Project", new { id = project.Id })" class="btn btn-sm btn-outline-secondary">Edit</a>
-                                <a href="@Url.Action("Delete", "Project", new { id = project.Id })" class="btn btn-sm btn-outline-secondary">Delete</a>
-                            </div>
-                            <span class="badge badge-secondary">Pending</span> <!-- Update this based on project status -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
-</div> *@
-
-
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-
-@model List<BTL_WNC.Models.Project>
+﻿@model List<BTL_WNC.Models.Project>
 
 @{
     ViewData["Title"] = "Project";
@@ -53,7 +6,7 @@
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
 <!-- Bao gồm jQuery (được yêu cầu bởi Bootstrap JS) -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> <!-- Sử dụng jQuery đầy đủ -->
 
 <!-- Bao gồm Popper.js -->
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
@@ -61,27 +14,33 @@
 <!-- Bao gồm Bootstrap JS -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-
 <div class="container mt-5">
     
-    <h1>Projects</h1>
+    @* <h1>Projects</h1> *@
     <div class="row mb-4">
-        <div class="col-md-6 text-left">
-            <a href="@Url.Action("AddProject", "Project")" class="btn btn-primary" data-toggle="modal" data-target="#addProjectModal">+ Add Project</a>
+        <div class="col-md-6">
+            <h1>Projects</h1>
         </div>
+        <div class="col-md-6 text-right align-self-center">
+            <span class="mr-3">Welcome, <a href="@Url.Action("Profile", "User", new { id = ViewBag.UserId })" style="font-weight: bold; color: black; font-size: 1.em;">@ViewBag.UserName</a></span>
+        </div>
+    </div>
+    
+    <div class="row mb-4">
+        @if ((bool)ViewBag.IsAdmin)
+        {
+            <div class="col-md-6 text-left">
+                <a href="@Url.Action("AddProject", "Project")" class="btn btn-primary" data-toggle="modal" data-target="#addProjectModal">+ Add Project</a>
+            </div>
+        }
         <div class="col-md-6 text-right">
-            <!-- Thanh tìm kiếm -->
-            <form class="form-inline" method="get" action="@Url.Action("ProjectView", "Project")">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="searchString">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="searchInput" style="width: 300px; margin-left: auto;">
         </div>
-        
     </div>
     <div class="row">
         @foreach (var project in Model)
         {
-            <div class="col-md-4">
+            <div class="col-lg-4 col-md-6 col-sm-12 mb-4 card-project">
                 <div class="card mb-4 box-shadow">
                     <a href="@Url.Action("TaskView", "Task", new { id = project.Id })" class="text-decoration-none text-dark">
                         <div class="card-header">
@@ -90,15 +49,15 @@
                         <div class="card-body">
                             <h5 class="card-title pricing-card-title">@project.startTime.ToString("dd MMM, yyyy")</h5>
                             <p class="card-text">@project.Decription</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
-                                    @* <a href="javascript:void(0);" class="btn btn-sm btn-outline-secondary" onclick="loadEditModal('@Url.Action("EditProject", "Project", new { id = project.Id })');">Edit</a> *@
-                                    <a href="@Url.Action("EditProject", "Project", new { id = project.Id })" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#editProjectModal", >Edit</a>  
-                                    @* <a href="@Url.Action("Delete", "Project", new { id = project.Id })" class="btn btn-sm btn-outline-secondary">Delete</a> *@
-                                    <a href="@Url.Action("DeleteProject", "Project", new { id = project.Id })" class="btn btn-sm btn-outline-secondary" onclick="return confirmDelete('@project.Id');">Delete</a>
+                            @if ((bool)ViewBag.IsAdmin)
+                            {
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary edit-project-btn" data-url="@Url.Action("EditProject", "Project", new { id = project.Id })">Edit</button>
+                                        <a href="@Url.Action("DeleteProject", "Project", new { id = project.Id })" class="btn btn-sm btn-outline-secondary" onclick="return confirmDelete('@project.Id');">Delete</a>
+                                    </div>
                                 </div>
-                                @* <span class="badge badge-secondary">Pending</span> <!-- Update this based on project status --> *@
-                            </div>
+                            }
                         </div>
                     </a>
                 </div>
@@ -106,14 +65,98 @@
         }
     </div>
 </div>
-@* <div id="editProjectContainer"></div> *@
-@* <partial name="AddProject" />
-<partial name="EditProject" /> *@
+
 
 @Html.Partial("AddProject", new BTL_WNC.Models.Project())
-@Html.Partial("EditProject", Model.FirstOrDefault()) 
+@* @Html.Partial("EditProject", Model.FirstOrDefault()) *@
+
+<!-- Edit Project Modal -->
+<div class="modal fade" id="editProjectModal" tabindex="-1" role="dialog" aria-labelledby="editProjectModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editProjectModalLabel">Edit Project</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Nội dung sẽ được tải vào đây -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="saveChangesButton">Save changes</button>
+                <button type="button" class="btn btn-secondary" id="closeButton" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
+    //Xu ly tìm kiem
+    document.getElementById('searchInput').addEventListener('input', function () {
+        var searchValue = this.value.toLowerCase();
+        var userCards = document.querySelectorAll('.card-project');
+
+        userCards.forEach(function (card) {
+            var name = card.querySelector('.card-header h4').textContent.toLowerCase();
+
+            if (name.includes(searchValue)) {
+                card.style.display = '';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    });
+    
+    $(document).ready(function () {
+        // Xử lý sự kiện cho nút Edit
+        $(document).on('click', '.edit-project-btn', function (e) {
+            e.preventDefault(); // Ngăn chặn hành động mặc định của nút
+            var url = $(this).data('url'); // Lấy URL từ thuộc tính data-url
+            loadEditModal(url); // Gọi hàm để tải nội dung vào modal
+        });
+
+        // Xử lý sự kiện cho nút Save Changes
+        $('#editProjectModal').on('click', '#saveChangesButton', function () {
+            var form = $('#editProjectForm');
+            $.ajax({
+                url: form.attr('action'),
+                type: 'POST',
+                data: form.serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        $('#editProjectModal').modal('hide');
+                        location.reload(); // Tải lại trang hoặc cập nhật phần tử
+                    } else {
+                        alert('Error: ' + response.errors.join(', '));
+                    }
+                },
+                error: function () {
+                    alert('Failed to save changes.');
+                }
+            });
+        });
+
+        // Xử lý sự kiện cho nút Close
+        $('#editProjectModal').on('click', '#closeButton', function () {
+            $('#editProjectModal').modal('hide');
+        });
+
+        // Xử lý sự kiện khi modal bị ẩn
+        $('#editProjectModal').on('hide.bs.modal', function () {
+            // Chuyển hướng hoặc thực hiện các hành động khi modal đóng (nếu cần)
+        });
+    });
+
+    function loadEditModal(url) {
+        $.get(url, function (data) {
+            $('#editProjectModal .modal-body').html(data);
+            $('#editProjectModal').modal('show');
+        }).fail(function () {
+            alert('Failed to load data.');
+        });
+    }
+
     function confirmDelete(projectId) {
         if (confirm('Bạn chắc chắn muốn xóa Project này chứ?')) {
             $.ajax({
@@ -131,13 +174,6 @@
         }
         return false;
     }
-
-    // function loadEditModal(url) {
-    //     $.get(url, function (data) {
-    //         $('#editProjectContainer').html(data);
-    //         $('#editProjectModal').modal('show');
-    //     });
-    // }
 </script>
 
 
