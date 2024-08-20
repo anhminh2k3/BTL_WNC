@@ -25,15 +25,7 @@
                 <div class="col1" style="padding-bottom:1rem">Mật khẩu</div>
                 <div class="col2">
                     @Html.PasswordFor(x => x.Password, new { autocomplete = "off", placeholder = "Nhập mật khẩu " }) <br />
-                    <input id="remember" name="rememberMe" type="checkbox" /> Duy trì đăng nhập
-                </div>
-                <div class="clear"></div>
-            </div>
-            <div class="row">
-                <div class="col1"></div>
-                <div class="col2">
-                    <span style="color: red" class="show-recover-form">Quên mật khẩu ?</span>
-                    <span class="show-register-form"><a class="" style="text-decoration:none" asp-area="" asp-controller="Access" asp-action="Register">Đăng Ký</a></span>
+                    @* <input id="remember" name="rememberMe" type="checkbox" /> Duy trì đăng nhập *@
                 </div>
                 <div class="clear"></div>
             </div>
@@ -42,6 +34,15 @@
                     <button type="submit" class="login">Đăng nhập</button>
                 </div>
             </div>
+            <div class="row">
+                <div class="col1"></div>
+                <div class="col2">
+                    @* <span style="color: red" class="show-recover-form">Quên mật khẩu ?</span> *@
+                    <span class="show-register-form"><a class="" style="text-decoration:none; margin-left: 70px" asp-area="" asp-controller="Access" asp-action="Register" >Đăng Ký</a></span>
+                </div>
+                <div class="clear"></div>
+            </div>
+            
             <p style="color:red; text-align:center">
                 @ViewBag.error
             </p>

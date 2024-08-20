@@ -1,0 +1,64 @@
+﻿.profile-container {
+    display: flex;
+    align-items: center; /* Center items vertically */
+    border: 1px solid #ddd; /* Optional: border around the whole profile container */
+    padding: 15px;
+    border-radius: 8px; /* Optional: rounded corners for the container */
+    width: 70%;
+}
+
+.profile-image {
+    height: 200px; /* Adjust the height as needed */
+    width: auto; /* Maintain aspect ratio */
+    object-fit: cover; /* Ensure the image covers the area without stretching */
+    border-radius: 8px; /* Optional: rounded corners for the image */
+}
+
+.profile-info {
+    flex: 1; /* Allow this column to grow and fill the space */
+}
+
+.vertical-line {
+    border-left: 2px solid #ddd; /* Vertical line color and thickness */
+    height: 100%; /* Full height to match the profile container */
+    margin: 0 20px; /* Space around the vertical line */
+}
+
+.task-list {
+    margin-top: 30px;
+}
+
+.task-table-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.task-item {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    width: 345px; /* Adjust the width as needed */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Optional: Add a subtle shadow */
+    text-align: center;
+}
+
+    .task-item h3 {
+        margin-top: 0;
+    }
+
+    .task-item p {
+        margin: 0;
+        padding: 5px 0;
+    }
+
+.btn-primary {
+    position: absolute;
+    top: 55px;
+    right: 5px;
+}
+
+.edit-profile-form {
+    display: none;
+    margin-top: 20px;
+}

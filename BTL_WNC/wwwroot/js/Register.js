@@ -9,11 +9,11 @@ $(document).ready(function () {
         var phoneNumber = $('#PhoneNumber').val();
         var email = $('#Email').val();
         var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        var dropdown = document.getElementById("Gender");
-        var selectedValue = dropdown.options[dropdown.selectedIndex].value;
+        //var dropdown = document.getElementById("Gender");
+        //var selectedValue = dropdown.options[dropdown.selectedIndex].value;
 
         // Check if any field is empty
-        if (name.trim() === '' && password.trim() === '' && confirmPassword.trim() === '' && phoneNumber.trim() === '' && email.trim() === '' && selectedValue === "") {
+        if (name.trim() === '' && password.trim() === '' && confirmPassword.trim() === '' && phoneNumber.trim() === '' && email.trim() === '' /*&& selectedValue === ""*/) {
             $('#Name').focus();
             $('.error_null').show();
             return;
