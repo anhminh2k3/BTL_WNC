@@ -9,7 +9,7 @@ namespace BTL_WNC.Models
         public Guid Id { get; set; }
         [Column(TypeName = "nvarchar(100)")]
         public string Name { get; set; }
-        [Column(TypeName = "varchar(1000)")]
+        [Column(TypeName = "nvarchar(1000)")]
         public string Decription { get; set; }
         public DateTime startTime { get; set; }
         // Mối quan hệ 1-n với Task

@@ -1,65 +1,4 @@
-﻿@* @model BTL_WNC.ViewModels.TaskViewModel
-
-@{
-    var task = Model?.Task;
-    var users = Model?.Users;
-}
-
-<form asp-action="AddTask" method="post">
-    <div class="form-group">
-        <label asp-for="Task.ProjectId"></label>
-        <select asp-for="Task.ProjectId" asp-items="ViewBag.Projects" class="form-control">
-            <option value="">Select Project</option>
-            @foreach (var project in ViewBag.Projects)
-            {
-                <option value="@project.Id">@project.Name</option>
-            }
-        </select>
-        <span asp-validation-for="Task.ProjectId" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Task.Title"></label>
-        <input asp-for="Task.Title" class="form-control" />
-        <span asp-validation-for="Task.Title" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Task.Status"></label>
-        <input asp-for="Task.Status" class="form-control" />
-        <span asp-validation-for="Task.Status" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Task.Content"></label>
-        <input asp-for="Task.Content" class="form-control" />
-        <span asp-validation-for="Task.Content" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Task.DueDate"></label>
-        <input asp-for="Task.DueDate" class="form-control" type="date" />
-        <span asp-validation-for="Task.DueDate" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label>Users</label>
-        @if (users != null)
-        {
-            foreach (var user in users)
-            {
-                <div>
-                    <input type="checkbox" name="SelectedUsers" value="@user.Id" />
-                    <label>@user.Name</label>
-                </div>
-            }
-        }
-    </div>
-
-    <button type="submit" class="btn btn-primary">Add Task</button>
-</form> *@
-
-@model BTL_WNC.ViewModels.TaskViewModel
+﻿@model BTL_WNC.ViewModels.TaskViewModel
 
 @{
     ViewData["Title"] = "Task";
@@ -99,25 +38,13 @@
     </div>
     <!-- Hidden Start Date field -->
     <input type="hidden" asp-for="Task.UpdateAt" id="updateAt" />
-    @* <div class="form-group">
-        <label class="control-label">Assign Users</label>
-        @foreach (var user in Model.Users)
-        {
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="SelectedUsers" value="@user.Id" id="user_@user.Id" />
-                <label class="form-check-label" for="user_@user.Id">
-                    @user.Name
-                </label>
-            </div>
-        }
-        <span asp-validation-for="SelectedUsers" class="text-danger"></span>
-    </div> *@
+    
     <div class="form-group">
         <label class="control-label">Assign Users</label>
         @foreach (var user in Model.Users)
         {
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="SelectedUsers" value="@user.Id" id="user_@user.Id"
+                <input class="form-check-input" type="checkbox" name="SelectedUsers" value="@user.Id" id="user_@user.Id" required
                 @if (Model.Task.Users.Contains(user))
                 {
                     <text>checked</text>
@@ -140,32 +67,5 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var dueDateInput = document.getElementById("dueDate");
-            var updateAtInput = document.getElementById("updateAt");
-
-            // Set the update date to today
-            var today = new Date().toISOString().split('T')[0];
-            updateAtInput.value = today;
-
-            // Set the minimum date for the due date to today + 1
-            var tomorrow = new Date();
-            tomorrow.setDate(tomorrow.getDate() + 1);
-            var minDueDate = tomorrow.toISOString().split('T')[0];
-            dueDateInput.setAttribute('min', minDueDate);
-
-            // Add an event listener to validate the due date
-            dueDateInput.addEventListener("change", function () {
-                var selectedDate = new Date(dueDateInput.value);
-                var updateAtDate = new Date(updateAtInput.value);
-
-                // Ensure Due Date is strictly greater than UpdateAt date
-                if (selectedDate <= updateAtDate) {
-                    alert("Due Date must be after the UpdateAt date.");
-                    dueDateInput.value = "";
-                }
-            });
-        });
-    </script>
+    <script src="~/js/addtask.js"></script>
 }

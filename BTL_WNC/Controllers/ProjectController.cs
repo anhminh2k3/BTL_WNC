@@ -92,7 +92,7 @@ namespace BTL_WNC.Controllers
             }
             return View(project);
         }
-
+        
         public IActionResult EditProject(Guid id)
         {
             if (!IsAdmin())
@@ -154,6 +154,20 @@ namespace BTL_WNC.Controllers
             await _context.SaveChangesAsync();
             return Json(new { success = true });
         }
+        //[HttpPost]
+        //public IActionResult DeleteProject(Guid id)
+        //{
+        //    var project = _context.Projects.Find(id);
+        //    if (project == null)
+        //    {
+        //        return NotFound(new { success = false, message = "Project not found" });
+        //    }
+
+        //    _context.Projects.Remove(project);
+        //    _context.SaveChanges();
+
+        //    return Ok(new { success = true });
+        //}
 
 
         private bool ProjectExists(Guid id)

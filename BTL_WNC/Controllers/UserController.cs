@@ -2,6 +2,7 @@
 using BTL_WNC.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 
 namespace BTL_WNC.Controllers
@@ -50,6 +51,62 @@ namespace BTL_WNC.Controllers
             };
             ViewBag.IsAdmin = IsAdmin();
             return View(viewModel);
+        }
+
+        public async Task<IActionResult> EditProfile(Guid id)
+        {
+            var user = await _dbContext.Users.FindAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return View(user);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditProfile(Guid id, string name, string email, string phoneNumber, string password)
+        {
+            // Manual validation checks
+            if (string.IsNullOrEmpty(name))
+            {
+                // Add a model error
+                ModelState.AddModelError("Name", "Name is required.");
+            }
+            if (string.IsNullOrEmpty(email) || !new EmailAddressAttribute().IsValid(email))
+            {
+                ModelState.AddModelError("Email", "A valid email is required.");
+            }
+            if (string.IsNullOrEmpty(phoneNumber))
+            {
+                ModelState.AddModelError("PhoneNumber", "Phone number is required.");
+            }
+            if (string.IsNullOrEmpty(password))
+            {
+                ModelState.AddModelError("Password", "Password is required.");
+            }
+
+            // Check if the manual validation passed
+            if (ModelState.IsValid)
+            {
+                // Fetch and update the user
+                var user = await _dbContext.Users.FindAsync(id);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                user.Name = name;
+                user.Email = email;
+                user.PhoneNumber = phoneNumber;
+                user.Password = password;
+
+                _dbContext.Update(user);
+                await _dbContext.SaveChangesAsync();
+                return RedirectToAction("Profile", new { id = user.Id });
+            }
+
+            // If validation failed, return the view with errors
+            return View(new User { Id = id, Name = name, Email = email, PhoneNumber = phoneNumber, Password = password });
         }
 
         //edit profile
